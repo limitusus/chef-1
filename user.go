@@ -27,6 +27,7 @@ type User struct {
 type UserResult struct {
 	Uri        string `json:"uri,omitempty"`
 	PrivateKey string `json:"private_key,omitempty"`
+	Admin      string `json:"admin,omitempty"`
 }
 
 type UserKey struct {
@@ -100,10 +101,25 @@ func (e *UserService) Get(name string) (user User, err error) {
 	return
 }
 
+// Update updates a user on the Chef server.
+// /users/USERNAME PUT
+// 200 - updated
+// 401 - not authenticated
+// 403 - not authorizated
+// 404 - user doesn't exist
+// 409 - new user name is already in use
+//
+// Chef API docs: https://docs.chef.io/api_chef_server.html#users-name
+func (e *UserService) Update(name string, user User) (userUpdate UserResult, err error) {
+	url := fmt.Sprintf("users/%s", name)
+	body, err := JSONReader(user)
+	err = e.client.magicRequestDecoder("PUT", url, body, &userUpdate)
+	return
+}
+
 // TODO:
 // API /users/USERNAME GET external_authentication_uid and email filters - filters is implemented. This may be ok.
 // note that the combination of verbose and filters is not supported
-// API /users/USERNAME GET verbose parameter
 // API /users/USERNAME PUT  issue #145
 // API /users/USERNAME/keys GET  issue #130
 // API /users/USERNAME/keys POST issue #130

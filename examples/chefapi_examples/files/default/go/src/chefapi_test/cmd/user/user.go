@@ -114,7 +114,7 @@ func listUsersVerbose(client *chef.Client) map[string]chef.UsersVerboseItem {
 }
 
 // updateUser uses the chef server api to update information for a single user
-func updateUser(client *chef.Client, username string, user chef.User) chef.User {
+func updateUser(client *chef.Client, username string, user chef.User) chef.UserResult {
 	user_update, err := client.Users.Update(username, user)
 	if err != nil {
 		fmt.Println("Issue updating user:", err)
