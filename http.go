@@ -20,7 +20,7 @@ import (
 )
 
 // ChefVersion that we pretend to emulate
-const ChefVersion = "11.12.0"
+const ChefVersion = "13.0.0"
 
 // Body wraps io.Reader and adds methods for calculating hashes and detecting content
 type Body struct {

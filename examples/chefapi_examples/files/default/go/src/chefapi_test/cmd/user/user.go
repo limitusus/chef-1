@@ -1,4 +1,4 @@
-//
+user.go//
 // Test the go-chef/chef chef server api /users endpoints against a live chef server
 //
 package main
@@ -51,13 +51,37 @@ func main() {
 
         userbody := chef.User{ FullName: "usr1new" }
 	userresult := updateUser(client, "usr1", userbody)
-	fmt.Printf("Update user1 %+v", userresult)
+	fmt.Printf("Update user1 partial update %+v", userresult)
 
 	userout = getUser(client, "usr1")
-	fmt.Println("Get usr1 after update %+v\n", userout)
+	fmt.Println("Get usr1 after partial update %+v\n", userout)
+
+	userbody := chef.User{ UserName: "usr1", DisplayName: "user1", FirstName: "user", MiddleName: "mid", LastName: "name", Email: "myuser@samp.com" }
+	userresult := updateUser(client, "usr1", userbody)
+	fmt.Printf("Update user1 full update %+v", userresult)
+
+	userout = getUser(client, "usr1")
+	fmt.Println("Get usr1 after full update %+v\n", userout)
+
+	userbody := chef.User{ UserName: "usr1", DisplayName: "user1", FirstName: "user", MiddleName: "mid", LastName: "name", Email: "myuser@samp.com", Admin: true }
+	userresult := updateUser(client, "usr1", userbody)
+	fmt.Printf("Update user1 admin %+v", userresult)
+
+	userout = getUser(client, "usr1")
+	fmt.Println("Get usr1 after admin update %+v\n", userout)
+
+	userbody := chef.User{ UserName: "usr1new", DisplayName: "user1", FirstName: "user", MiddleName: "mid", LastName: "name", Email: "myuser@samp.com" }
+	userresult := updateUser(client, "usr1", userbody)
+	fmt.Printf("Update user1 rename update %+v", userresult)
+
+	userout = getUser(client, "usr1new")
+	fmt.Println("Get usr1 after full update %+v\n", userout)
 
 	err := deleteUser(client, "usr1")
 	fmt.Println("Delete usr1", err)
+
+	err := deleteUser(client, "usr1new")
+	fmt.Println("Delete usr1new", err)
 
 	userList = listUsers(client)
 	fmt.Printf("List after cleanup %+v EndCleanupList\n", userList)
