@@ -20,7 +20,7 @@ import (
 )
 
 // ChefVersion that we pretend to emulate
-const ChefVersion = "13.0.0"
+const ChefVersion = "14.0.0"
 
 // Body wraps io.Reader and adds methods for calculating hashes and detecting content
 type Body struct {
@@ -303,6 +303,7 @@ func (ac AuthConfig) SignRequest(request *http.Request) error {
 	for _, key := range []string{"Method", "Accept", "X-Chef-Version", "X-Ops-Timestamp", "X-Ops-UserId", "X-Ops-Sign"} {
 		request.Header.Set(key, vals[key])
 	}
+	request.Header["X-Ops-Server-API-Version"] = []string{"1",}  // use non canonical form to match what knife does, move up 
 
 	// To validate the signature it seems to be very particular
 	var content string
