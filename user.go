@@ -16,12 +16,12 @@ type User struct {
 	Email                         string `json:"email,omitempty"`
 	ExternalAuthenticationUid     string `json:"external_authentication_uid,omitempty"` // this or password
 	FirstName                     string `json:"first_name,omitempty"`
-	FullName                      string `json:"full_name,omitempty"`
 	LastName                      string `json:"last_name,omitempty"`
 	MiddleName                    string `json:"middle_name,omitempty"`
 	Password                      string `json:"password,omitempty"`   // Valid password
 	PublicKey                     string `json:"public_key,omitempty"` // not for Create
 	RecoveryAuthenticationEnabled bool   `json:"recovery_authentication_enabled,omitempty"`
+	Admin                         bool   `json:"admin,omitempty"`
 }
 
 type UserResult struct {
